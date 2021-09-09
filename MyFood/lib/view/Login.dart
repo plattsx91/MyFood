@@ -182,11 +182,11 @@ class LoginState extends State<LoginScreen> {
                         onPressed: () async {
                           await Firebase.initializeApp();
                           try {
-                            UserCredential user = await FirebaseAuth.instance
+                            /*UserCredential user = await FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
                                     email: userController.text,
-                                    password: passwordController.text);
-                            final uid = user.user.uid;
+                                    password: passwordController.text);*/
+                            //final uid = user.user.uid;
                             Navigator.of(context).pushNamed(Routes.main_page);
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
