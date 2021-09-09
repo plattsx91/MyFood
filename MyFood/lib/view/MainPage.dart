@@ -107,13 +107,13 @@ class _MainPageState extends State<MainPage> {
               //Menu Button
               IconButton(
                 icon: Image.asset('assets/images/menu.png'),
-                iconSize: deviceHeight * .11,
+                iconSize: deviceHeight * .1,
                 onPressed: () {},
               ),
               //Fridge Button
               IconButton(
                 icon: Image.asset('assets/images/fridge.png'),
-                iconSize: deviceHeight * .11,
+                iconSize: deviceHeight * .1,
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => FridgePage()));
@@ -122,13 +122,13 @@ class _MainPageState extends State<MainPage> {
               //Shopping Cart Button
               IconButton(
                 icon: Image.asset('assets/images/shopping_cart.png'),
-                iconSize: deviceHeight * .11,
+                iconSize: deviceHeight * .1,
                 onPressed: () {},
               ),
               //Grocery List Button
               IconButton(
                 icon: Image.asset('assets/images/grocery_list.png'),
-                iconSize: deviceHeight * .11,
+                iconSize: deviceHeight * .1,
                 onPressed: () {},
               )
             ],

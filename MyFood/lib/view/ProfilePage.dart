@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import './FridgePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,15 +17,11 @@ class _ProfilePageState extends State<ProfilePage> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   Future getPosts() async {
-    var db = FirebaseFirestore.instance;
-    final User user = auth.currentUser;
-    final uid = user.uid;
-
-    QuerySnapshot dietQuery =
+    /*QuerySnapshot dietQuery =
         await db.collection("Users").doc(uid).collection("Diets").get();
 
     QuerySnapshot allergyQuery =
-        await db.collection("Users").doc(uid).collection("Allergies").get();
+        await db.collection("Users").doc(uid).collection("Allergies").get();*/
   }
 
   Future getDiet() async {
