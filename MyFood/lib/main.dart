@@ -1,4 +1,4 @@
-import 'package:MyFoodLogin/theme/approutes.dart';
+import 'package:myfood/theme/approutes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './view/Login.dart';
 import 'package:flutter/material.dart';
