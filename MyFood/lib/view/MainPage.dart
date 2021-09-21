@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:myfood/view/GroceryListPage.dart';
+import 'package:myfood/view/ShoppingCartPage.dart';
 import './FridgePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'ProfilePage.dart';
+import 'Menu.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key}) : super(key: key);
@@ -108,7 +111,10 @@ class _MainPageState extends State<MainPage> {
               IconButton(
                 icon: Image.asset('assets/images/menu.png'),
                 iconSize: deviceHeight * .1,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Menu()));
+                },
               ),
               //Fridge Button
               IconButton(
@@ -123,13 +129,19 @@ class _MainPageState extends State<MainPage> {
               IconButton(
                 icon: Image.asset('assets/images/shopping_cart.png'),
                 iconSize: deviceHeight * .1,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ShoppingCartPage()));
+                },
               ),
               //Grocery List Button
               IconButton(
                 icon: Image.asset('assets/images/grocery_list.png'),
                 iconSize: deviceHeight * .1,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => GroceryListPage()));
+                },
               )
             ],
           ),
