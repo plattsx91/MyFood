@@ -25,12 +25,10 @@ class FridgeContainer {
   }
 
   getSize() {
-    print(mapIndex.length);
     return mapIndex.length;
   }
 
   operator [](int key) {
-    print(key);
     return listOfFood[key];
   }
 }
