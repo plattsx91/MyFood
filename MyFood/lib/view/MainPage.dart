@@ -105,8 +105,10 @@ class _MainPageState extends State<MainPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // barcode scan button
+              // will have to change this to IconButton when we have an icon
               ElevatedButton(
-                child: Icon(Icons.menu, color: Colors.white),
+                child: Icon(Icons.menu, color: Colors.red),
                 style: ElevatedButton.styleFrom(
                   shape: CircleBorder(),
                   padding: EdgeInsets.all(20),
