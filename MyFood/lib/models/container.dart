@@ -6,12 +6,10 @@ class FridgeContainer {
   String name;
   FridgeContainer() {
     mapIndex = new Map<String, int>();
-    listOfFood = new List<Food>();
     name = "default";
   }
   FridgeContainer.withName(String name) {
     mapIndex = new Map<String, int>();
-    listOfFood = new List<Food>();
     this.name = name;
   }
   void add(String food) {
