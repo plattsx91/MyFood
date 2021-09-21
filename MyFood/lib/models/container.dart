@@ -17,12 +17,10 @@ class FridgeContainer {
     if (mapIndex.containsKey(food)) {
       listOfFood[mapIndex[food]].increaseCount();
       listOfFood[mapIndex[food]].save();
-      print("YES");
     } else {
       mapIndex[food] = this.getSize();
       listOfFood.add(new Food(food, this.name));
       listOfFood[this.getSize() - 1].save();
-      print("NO");
     }
   }
 
@@ -33,7 +31,6 @@ class FridgeContainer {
 
   operator [](int key) {
     print(key);
-    print('hmm');
     return listOfFood[key];
   }
 }
