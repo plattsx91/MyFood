@@ -13,7 +13,6 @@ class FridgeContainer {
     this.name = name;
   }
   void add(String food) {
-    print(food);
     if (mapIndex.containsKey(food)) {
       listOfFood[mapIndex[food]].increaseCount();
       listOfFood[mapIndex[food]].save();
