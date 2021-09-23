@@ -305,7 +305,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           );
                         } else {
                           return ListView.builder(
-                              itemCount: snapshot.data.length,
+                              itemCount:
+                                  snapshot.hasData ? snapshot.data.legth : 0,
                               itemBuilder: (_, index) {
                                 return Text(snapshot.data[index].get("Name"));
                               });
