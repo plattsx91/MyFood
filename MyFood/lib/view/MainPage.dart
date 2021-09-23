@@ -136,8 +136,8 @@ class _MainPageState extends State<MainPage> {
                 icon: Image.asset('assets/images/menu.png'),
                 iconSize: deviceHeight * .1,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Menu()));
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Menu()));
                 },
               ),
               //Fridge Button
@@ -154,8 +154,10 @@ class _MainPageState extends State<MainPage> {
                 icon: Image.asset('assets/images/shopping_cart.png'),
                 iconSize: deviceHeight * .1,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ShoppingCartPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ShoppingCartPage()));
                 },
               ),
               //Grocery List Button
@@ -163,8 +165,10 @@ class _MainPageState extends State<MainPage> {
                 icon: Image.asset('assets/images/grocery_list.png'),
                 iconSize: deviceHeight * .1,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => GroceryListPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => GroceryListPage()));
                 },
               )
             ],
@@ -202,7 +206,7 @@ class _MainPageState extends State<MainPage> {
                       );
                     } else {
                       return ListView.builder(
-                          itemCount: snapshot.data.length,
+                          itemCount: snapshot.hasData ? snapshot.data.legth : 0,
                           itemBuilder: (_, index) {
                             return InkWell(
                                 onTap: () => showDialog(
