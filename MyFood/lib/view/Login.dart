@@ -178,25 +178,35 @@ class LoginState extends State<LoginScreen> {
                     width: 130,
                     child: Material(
                       borderRadius: BorderRadius.circular(5),
-                      child: RaisedButton(
+                      child: ElevatedButton(
                         onPressed: () async {
                           await Firebase.initializeApp();
                           try {
-                            /*UserCredential user = await FirebaseAuth.instance
+                            UserCredential user = await FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
                                     email: userController.text,
-                                    password: passwordController.text);*/
+                                    password: passwordController.text);
                             //final uid = user.user.uid;
                             Navigator.of(context).pushNamed(Routes.main_page);
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("User not Found"),
+                              ));
                               print('No user found for that email.');
                             } else if (e.code == 'wrong-password') {
-                              print('Wrong password provided for that user.');
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("Wrong password provided for that user."),
+                              ));
+                            }
+                            else{
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("Error"),
+                              ));
                             }
                           }
                         },
-                        color: Colors.orange[700],
+
                         child: Center(
                           child: Text('Log In',
                               style: TextStyle(
