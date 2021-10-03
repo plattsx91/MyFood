@@ -187,7 +187,7 @@ class LoginState extends State<LoginScreen> {
                                     email: userController.text,
                                     password: passwordController.text);
                             //final uid = user.user.uid;
-                            Navigator.of(context).pushNamed(Routes.main_page);
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (e) => false);
                           } on FirebaseAuthException catch (e) {
                             if (e.code == 'user-not-found') {
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
