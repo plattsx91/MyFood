@@ -155,7 +155,7 @@ class _MainPageState extends State<MainPage> {
                 iconSize: deviceHeight * .1,
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ShoppingCartPage()));
+                      MaterialPageRoute(builder: (context) => MyApp()));
                 },
               ),
               //Grocery List Button

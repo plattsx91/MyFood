@@ -13,11 +13,12 @@ class MenuState extends State<Menu> {
     return Scaffold(
       body: Center(
         child: RaisedButton(
-          child: Text("Return to login"),
+          child: Text("+"),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
+
       ),
     );
   }
