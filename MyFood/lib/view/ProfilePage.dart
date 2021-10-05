@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myfood/view/MainPage.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'dart:async';
+import 'Login.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key}) : super(key: key);
@@ -305,14 +306,21 @@ class _ProfilePageState extends State<ProfilePage> {
                           );
                         } else {
                           return ListView.builder(
-                              itemCount: snapshot.data.length,
+                              itemCount:
+                                  snapshot.hasData ? snapshot.data.legth : 0,
                               itemBuilder: (_, index) {
                                 return Text(snapshot.data[index].get("Name"));
                               });
                         }
                       }))
             ],
-          )
+          ),
+              ElevatedButton(
+                  onPressed: (){
+                    auth.signOut();
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginScreen()), (e) => false);
+                  },
+                  child: Text("Logout"))
         ])));
   }
 }
