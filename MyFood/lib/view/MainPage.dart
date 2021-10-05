@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myfood/view/GroceryListPage.dart';
 import 'package:myfood/view/ShoppingCartPage.dart';
+import 'package:myfood/view/BarcodeScanPage.dart';
 import './FridgePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:firebase_core/firebase_core.dart';
@@ -103,6 +104,29 @@ class _MainPageState extends State<MainPage> {
             ],
           ),
 
+          // row for the barcode scan button
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // barcode scan button
+              // will have to change this to IconButton when we have an icon
+              ElevatedButton(
+                child: Icon(Icons.menu, color: Colors.red),
+                style: ElevatedButton.styleFrom(
+                  shape: CircleBorder(),
+                  padding: EdgeInsets.all(20),
+                  primary: Colors.red,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BarcodeScanPage()));
+                },
+              )
+            ],
+          ),
+
           //Row of 4 buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -112,8 +136,8 @@ class _MainPageState extends State<MainPage> {
                 icon: Image.asset('assets/images/menu.png'),
                 iconSize: deviceHeight * .1,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Menu()));
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Menu()));
                 },
               ),
               //Fridge Button
@@ -130,8 +154,10 @@ class _MainPageState extends State<MainPage> {
                 icon: Image.asset('assets/images/shopping_cart.png'),
                 iconSize: deviceHeight * .1,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ShoppingCartPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ShoppingCartPage()));
                 },
               ),
               //Grocery List Button
@@ -139,8 +165,10 @@ class _MainPageState extends State<MainPage> {
                 icon: Image.asset('assets/images/grocery_list.png'),
                 iconSize: deviceHeight * .1,
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => GroceryListPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => GroceryListPage()));
                 },
               )
             ],
@@ -178,7 +206,7 @@ class _MainPageState extends State<MainPage> {
                       );
                     } else {
                       return ListView.builder(
-                          itemCount: snapshot.data.length,
+                          itemCount: snapshot.hasData ? snapshot.data.legth : 0,
                           itemBuilder: (_, index) {
                             return InkWell(
                                 onTap: () => showDialog(
