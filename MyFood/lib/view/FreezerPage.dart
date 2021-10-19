@@ -327,7 +327,9 @@ class _FreezerPageState extends State<FreezerPage> {
                                 );
                               } else {
                                 return ListView.builder(
-                                    itemCount: data.length,
+                                    itemCount: snapshot.hasData
+                                        ? snapshot.data.length
+                                        : 0,
                                     itemBuilder: (_, index) {
                                       //When an item is clicked, a dialog box to change the amount of that item or to delete the item appears
                                       return InkWell(
