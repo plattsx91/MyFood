@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GroceryListPage extends StatefulWidget {
-  const GroceryListPage({Key key}) : super(key: key);
+  const GroceryListPage({Key? key}) : super(key: key);
 
   @override
   _GroceryListPageState createState() => _GroceryListPageState();

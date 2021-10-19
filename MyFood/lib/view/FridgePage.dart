@@ -8,12 +8,13 @@ import 'package:myfood/view/ProducePage.dart';
 import 'MeatPage.dart';
 
 class FridgePage extends StatefulWidget {
-  FridgePage({Key key}) : super(key: key);
+  FridgePage({Key? key}) : super(key: key);
 
   @override
   _FridgePageState createState() => _FridgePageState();
 }
 
+/* // commented out because they aren't needed currently but might be
 class StatusDialog extends StatefulWidget {
   State<StatefulWidget> createState() {
     return StatusDialogState();
@@ -21,8 +22,10 @@ class StatusDialog extends StatefulWidget {
 }
 
 class StatusDialogState extends State<StatusDialog> {
-  Widget build(BuildContext context) {}
-}
+  Widget build(BuildContext context) {
+    return;
+  }
+} */
 
 class _FridgePageState extends State<FridgePage> {
   @override

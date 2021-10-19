@@ -8,7 +8,7 @@ import 'dart:async';
 import 'Login.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({Key key}) : super(key: key);
+  ProfilePage({Key? key}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -27,8 +27,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future getDiet() async {
     var db = FirebaseFirestore.instance;
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
 
     QuerySnapshot qn =
         await db.collection("Users").doc(uid).collection("Diets").get();
@@ -37,8 +37,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   dietErase() {
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
 
     FirebaseFirestore.instance
         .collection("Users")
@@ -53,8 +53,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   allergyErase() {
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
 
     FirebaseFirestore.instance
         .collection("Users")
@@ -69,8 +69,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   allergySubmit(List<String> allergies) {
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
 
     for (int i = 0; i <= allergies.length; i++) {
       setState(() {
@@ -85,8 +85,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   dietSubmit(List<String> diets) {
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
 
     for (int i = 0; i <= diets.length; i++) {
       setState(() {
@@ -299,6 +299,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: FutureBuilder(
                       future: getDiet(),
                       builder: (_, snapshot) {
+                        List<DocumentSnapshot> data =
+                            snapshot.data as List<DocumentSnapshot>;
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Center(
@@ -309,7 +311,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               itemCount:
                                   snapshot.hasData ? snapshot.data.length : 0,
                               itemBuilder: (_, index) {
-                                return Text(snapshot.data[index].get("Name"));
+                                return Text(data[index].get("Name"));
                               });
                         }
                       }))
