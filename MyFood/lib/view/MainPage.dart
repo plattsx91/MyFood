@@ -205,8 +205,12 @@ class _MainPageState extends State<MainPage> {
                         child: Text("Loading..."),
                       );
                     } else {
+                      if(snapshot.data.length < 1){
+                        print(snapshot.data.toString());
+                        return Center(child: Text("You have nothing to check for"),);
+                      }
                       return ListView.builder(
-                          itemCount: snapshot.hasData ? snapshot.data.legth : 0,
+                          itemCount: snapshot.hasData ? snapshot.data.length : 0,
                           itemBuilder: (_, index) {
                             return InkWell(
                                 onTap: () => showDialog(
