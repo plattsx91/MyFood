@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'ProfilePage.dart';
 import 'Menu.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class MainPage extends StatefulWidget {
   MainPage({Key? key}) : super(key: key);
@@ -94,7 +95,20 @@ class _MainPageState extends State<MainPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Image.asset('assets/images/user.png'),
+                icon: FutureBuilder(
+                  future: getProfilePic(),
+                  builder: (context,snapshot){
+                    if(snapshot.hasData){
+                      if(snapshot.data == null){
+                        return CircleAvatar(maxRadius: 100,backgroundImage: AssetImage('assets/images/user.png'),);
+                      }
+                      return CircleAvatar(maxRadius: 100,backgroundImage: NetworkImage(snapshot.data.toString()),);
+                    }
+                    else{
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
                 iconSize: deviceHeight * .28,
                 onPressed: () {
                   Navigator.push(context,
@@ -200,13 +214,13 @@ class _MainPageState extends State<MainPage> {
                 child: FutureBuilder(
                   future: getPosts(),
                   builder: (_, snapshot) {
-                    List<DocumentSnapshot> data =
-                        snapshot.data as List<DocumentSnapshot>;
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                         child: Text("Loading..."),
                       );
                     } else {
+                      List<DocumentSnapshot> data =
+                      snapshot.data as List<DocumentSnapshot>;
                       return ListView.builder(
                           itemCount: data.length,
                           itemBuilder: (_, index) {
@@ -337,3 +351,14 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
+Future<String> getProfilePic() async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String downloadURL = await firebase_storage.FirebaseStorage.instance
+      .ref('profilePics/' + auth.currentUser!.uid)
+      .getDownloadURL();
+  return downloadURL;
+  // Within your widgets:
+  // Image.network(downloadURL);
+}
+
