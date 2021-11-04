@@ -6,6 +6,8 @@ import 'package:myfood/view/MainPage.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'dart:async';
 import 'Login.dart';
+import 'CameraPage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -178,10 +180,23 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Image.asset('assets/images/user.png'),
+                icon: FutureBuilder(
+                  future: getProfilePic(),
+                  builder: (context,snapshot){
+                    if(snapshot.hasData){
+                      if(snapshot.data == null){
+                        return CircleAvatar(maxRadius: 100,backgroundImage: AssetImage('assets/images/user.png'),);
+                      }
+                      return CircleAvatar(maxRadius: 100,backgroundImage: NetworkImage(snapshot.data.toString()),);
+                    }
+                    else{
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
                 iconSize: deviceHeight * .28,
                 onPressed: () {
-                  print("does something");
+                  CameraSetup.runCamera(context);
                 },
               )
             ],
@@ -299,14 +314,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: FutureBuilder(
                       future: getDiet(),
                       builder: (_, snapshot) {
-                        List<DocumentSnapshot> data =
-                            snapshot.data as List<DocumentSnapshot>;
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Center(
                             child: Text("Loading..."),
                           );
                         } else {
+                          List<DocumentSnapshot> data =
+                          snapshot.data as List<DocumentSnapshot>;
                           return ListView.builder(
                               itemCount: data.length,
                               itemBuilder: (_, index) {
@@ -324,4 +339,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Text("Logout"))
         ])));
   }
+}
+
+Future<String> getProfilePic() async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String downloadURL = await firebase_storage.FirebaseStorage.instance
+      .ref('profilePics/' + auth.currentUser!.uid)
+      .getDownloadURL();
+  return downloadURL;
+  // Within your widgets:
+  // Image.network(downloadURL);
 }
