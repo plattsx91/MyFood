@@ -23,8 +23,8 @@ FirebaseAuth auth = FirebaseAuth.instance;
 //TextEditingController _amountController = TextEditingController();
 Future getPosts() async {
   var db = FirebaseFirestore.instance;
-  final User user = auth.currentUser;
-  final uid = user.uid;
+  final User? user = auth.currentUser;
+  final uid = user?.uid;
 
   //var ref = db.collection("Users").doc(uid).collection("Drawer");
   //var querySnapshot = await ref.get();
