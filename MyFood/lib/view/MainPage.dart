@@ -206,7 +206,8 @@ class _MainPageState extends State<MainPage> {
                       );
                     } else {
                       return ListView.builder(
-                          itemCount: snapshot.hasData ? snapshot.data.legth : 0,
+                          itemCount:
+                              snapshot.hasData ? snapshot.data.length : 0,
                           itemBuilder: (_, index) {
                             return InkWell(
                                 onTap: () => showDialog(
