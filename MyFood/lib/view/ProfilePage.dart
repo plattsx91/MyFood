@@ -6,9 +6,11 @@ import 'package:myfood/view/MainPage.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'dart:async';
 import 'Login.dart';
+import 'CameraPage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({Key key}) : super(key: key);
+  ProfilePage({Key? key}) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -27,8 +29,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future getDiet() async {
     var db = FirebaseFirestore.instance;
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
 
     QuerySnapshot qn =
         await db.collection("Users").doc(uid).collection("Diets").get();
@@ -37,8 +39,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   dietErase() {
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
 
     FirebaseFirestore.instance
         .collection("Users")
@@ -53,8 +55,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   allergyErase() {
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
 
     FirebaseFirestore.instance
         .collection("Users")
@@ -69,8 +71,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   allergySubmit(List<String> allergies) {
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
 
     for (int i = 0; i <= allergies.length; i++) {
       setState(() {
@@ -85,8 +87,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   dietSubmit(List<String> diets) {
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
 
     for (int i = 0; i <= diets.length; i++) {
       setState(() {
@@ -178,10 +180,23 @@ class _ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Image.asset('assets/images/user.png'),
+                icon: FutureBuilder(
+                  future: getProfilePic(),
+                  builder: (context,snapshot){
+                    if(snapshot.hasData){
+                      if(snapshot.data == null){
+                        return CircleAvatar(maxRadius: 100,backgroundImage: AssetImage('assets/images/user.png'),);
+                      }
+                      return CircleAvatar(maxRadius: 100,backgroundImage: NetworkImage(snapshot.data.toString()),);
+                    }
+                    else{
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
                 iconSize: deviceHeight * .28,
                 onPressed: () {
-                  print("does something");
+                  CameraSetup.runCamera(context);
                 },
               )
             ],
@@ -305,11 +320,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: Text("Loading..."),
                           );
                         } else {
+                          List<DocumentSnapshot> data =
+                          snapshot.data as List<DocumentSnapshot>;
                           return ListView.builder(
-                              itemCount:
-                                  snapshot.hasData ? snapshot.data.legth : 0,
+                              itemCount: data.length,
                               itemBuilder: (_, index) {
-                                return Text(snapshot.data[index].get("Name"));
+                                return Text(data[index].get("Name"));
                               });
                         }
                       }))
@@ -323,4 +339,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Text("Logout"))
         ])));
   }
+}
+
+Future<String> getProfilePic() async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String downloadURL = await firebase_storage.FirebaseStorage.instance
+      .ref('profilePics/' + auth.currentUser!.uid)
+      .getDownloadURL();
+  return downloadURL;
+  // Within your widgets:
+  // Image.network(downloadURL);
 }

@@ -12,7 +12,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:myfood/view/MenuDetail.dart';
 
 class Menu extends StatefulWidget {
-  Menu({Key key}) : super(key: key);
+  Menu({Key? key}) : super(key: key);
 
   @override
   MenuState createState() => MenuState();

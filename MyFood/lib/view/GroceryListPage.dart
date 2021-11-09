@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class GroceryListPage extends StatefulWidget {
-  const GroceryListPage({Key key}) : super(key: key);
+  const GroceryListPage({Key? key}) : super(key: key);
 
   @override
   _GroceryListPageState createState() => _GroceryListPageState();

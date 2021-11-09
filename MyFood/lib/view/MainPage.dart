@@ -9,9 +9,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'ProfilePage.dart';
 import 'Menu.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class MainPage extends StatefulWidget {
-  MainPage({Key key}) : super(key: key);
+  MainPage({Key? key}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -26,8 +27,8 @@ class _MainPageState extends State<MainPage> {
 //Ask for all of the food items from the current user
   Future getPosts() async {
     var db = FirebaseFirestore.instance;
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
     DateTime twoWeeks = today.add(const Duration(days: 14));
 
     QuerySnapshot qn = await db
@@ -42,17 +43,17 @@ class _MainPageState extends State<MainPage> {
 
   Color expColor(DateTime date) {
     if (date.isBefore(today)) {
-      return Colors.red[300];
+      return Colors.red[300]!;
     }
     if (date.isBefore(today.add(const Duration(days: 7)))) {
-      return Colors.orange[200];
+      return Colors.orange[200]!;
     }
-    return Colors.green[300];
+    return Colors.green[300]!;
   }
 
   changeAmount(String item) {
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
     setState(() {
       FirebaseFirestore.instance
           .collection("Users")
@@ -66,8 +67,8 @@ class _MainPageState extends State<MainPage> {
 
   //Deletes the current food item
   deleteItem(String item) {
-    final User user = auth.currentUser;
-    final uid = user.uid;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
     setState(() {
       FirebaseFirestore.instance
           .collection("Users")
@@ -94,7 +95,20 @@ class _MainPageState extends State<MainPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Image.asset('assets/images/user.png'),
+                icon: FutureBuilder(
+                  future: getProfilePic(),
+                  builder: (context,snapshot){
+                    if(snapshot.hasData){
+                      if(snapshot.data == null){
+                        return CircleAvatar(maxRadius: 100,backgroundImage: AssetImage('assets/images/user.png'),);
+                      }
+                      return CircleAvatar(maxRadius: 100,backgroundImage: NetworkImage(snapshot.data.toString()),);
+                    }
+                    else{
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
                 iconSize: deviceHeight * .28,
                 onPressed: () {
                   Navigator.push(context,
@@ -205,17 +219,22 @@ class _MainPageState extends State<MainPage> {
                         child: Text("Loading..."),
                       );
                     } else {
+                      List<DocumentSnapshot> data =
+                      snapshot.data as List<DocumentSnapshot>;
                       return ListView.builder(
+<<<<<<< HEAD
                           itemCount:
                               snapshot.hasData ? snapshot.data.length : 0,
+=======
+                          itemCount: data.length,
+>>>>>>> upstream/master
                           itemBuilder: (_, index) {
                             return InkWell(
                                 onTap: () => showDialog(
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        title: Text(
-                                            snapshot.data[index].get("Name")),
+                                        title: Text(data[index].get("Name")),
                                         content: SingleChildScrollView(
                                             child: ListBody(children: <Widget>[
                                           TextField(
@@ -239,21 +258,20 @@ class _MainPageState extends State<MainPage> {
                                           ),
                                         ])),
                                         actions: <Widget>[
-                                          Text(snapshot.data[index]
-                                                      .get("ExpDate") ==
-                                                  null
-                                              ? 'No expiration date'
-                                              : DateFormat('MM/dd/yyyy')
-                                                  .format(snapshot.data[index]
-                                                      .get("ExpDate")
-                                                      .toDate())
-                                                  .toString()),
+                                          Text(
+                                              data[index].get("ExpDate") == null
+                                                  ? 'No expiration date'
+                                                  : DateFormat('MM/dd/yyyy')
+                                                      .format(data[index]
+                                                          .get("ExpDate")
+                                                          .toDate())
+                                                      .toString()),
 
                                           //Submit Button
                                           InkWell(
                                             onTap: () {
-                                              changeAmount(snapshot.data[index]
-                                                  .get("Name"));
+                                              changeAmount(
+                                                  data[index].get("Name"));
                                               Navigator.of(context).pop();
                                             },
                                             child: Container(
@@ -279,8 +297,8 @@ class _MainPageState extends State<MainPage> {
                                           //Cancel Button
                                           InkWell(
                                             onTap: () {
-                                              deleteItem(snapshot.data[index]
-                                                  .get("Name"));
+                                              deleteItem(
+                                                  data[index].get("Name"));
                                               Navigator.of(context).pop();
                                             },
                                             //Delete Button
@@ -310,17 +328,16 @@ class _MainPageState extends State<MainPage> {
                                   padding: EdgeInsets.symmetric(
                                       vertical: 0.0, horizontal: 5.0),
                                   child: Card(
-                                    color: expColor(snapshot.data[index]
-                                        .get("ExpDate")
-                                        .toDate()),
+                                    color: expColor(
+                                        data[index].get("ExpDate").toDate()),
                                     child: ListTile(
                                       title: Text(
-                                        snapshot.data[index].get("Name"),
+                                        data[index].get("Name"),
                                         textAlign: TextAlign.left,
                                       ),
                                       trailing: Text(
                                         DateFormat('MM/dd/yyyy')
-                                            .format(snapshot.data[index]
+                                            .format(data[index]
                                                 .get("ExpDate")
                                                 .toDate())
                                             .toString(),
@@ -339,3 +356,14 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
+
+Future<String> getProfilePic() async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String downloadURL = await firebase_storage.FirebaseStorage.instance
+      .ref('profilePics/' + auth.currentUser!.uid)
+      .getDownloadURL();
+  return downloadURL;
+  // Within your widgets:
+  // Image.network(downloadURL);
+}
+
