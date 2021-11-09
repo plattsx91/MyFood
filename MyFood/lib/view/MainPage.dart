@@ -146,44 +146,56 @@ class _MainPageState extends State<MainPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //Menu Button
-              IconButton(
-                icon: Image.asset('assets/images/menu.png'),
-                iconSize: deviceHeight * .1,
-                onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => Menu()));
-                },
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  icon: Image.asset('assets/images/menu.png'),
+                  iconSize: deviceHeight * .1,
+                  onPressed: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => Menu()));
+                  },
+                ),
               ),
               //Fridge Button
-              IconButton(
-                icon: Image.asset('assets/images/fridge.png'),
-                iconSize: deviceHeight * .1,
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FridgePage()));
-                },
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  icon: Image.asset('assets/images/fridge.png'),
+                  iconSize: deviceHeight * .1,
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => FridgePage()));
+                  },
+                ),
               ),
               //Shopping Cart Button
-              IconButton(
-                icon: Image.asset('assets/images/shopping_cart.png'),
-                iconSize: deviceHeight * .1,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ShoppingCartPage()));
-                },
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  icon: Image.asset('assets/images/shopping_cart.png'),
+                  iconSize: deviceHeight * .1,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShoppingCartPage()));
+                  },
+                ),
               ),
               //Grocery List Button
-              IconButton(
-                icon: Image.asset('assets/images/grocery_list.png'),
-                iconSize: deviceHeight * .1,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => GroceryListPage()));
-                },
+              Flexible(
+                flex: 1,
+                child: IconButton(
+                  icon: Image.asset('assets/images/grocery_list.png'),
+                  iconSize: deviceHeight * .1,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GroceryListPage()));
+                  },
+                ),
               )
             ],
           ),
