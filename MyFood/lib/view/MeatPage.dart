@@ -316,8 +316,10 @@ class _MeatPageState extends State<MeatPage> {
                           child: FutureBuilder(
                             future: getPosts(),
                             builder: (_, snapshot) {
-                              List<DocumentSnapshot> data =
-                                  snapshot.data as List<DocumentSnapshot>;
+                              List<DocumentSnapshot>? data;
+                              if (snapshot.hasData) {
+                                data = snapshot.data as List<DocumentSnapshot>;
+                              }
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
@@ -325,7 +327,7 @@ class _MeatPageState extends State<MeatPage> {
                                 );
                               } else {
                                 return ListView.builder(
-                                    itemCount: data.length,
+                                    itemCount: data?.length,
                                     itemBuilder: (_, index) {
                                       //When an item is clicked, a dialog box to change the amount of that item or to delete the item appears
                                       return InkWell(
@@ -334,7 +336,7 @@ class _MeatPageState extends State<MeatPage> {
                                               builder: (context) {
                                                 return AlertDialog(
                                                   title: Text(
-                                                      data[index].get("Name")),
+                                                      data![index].get("Name")),
                                                   content:
                                                       SingleChildScrollView(
                                                           child: ListBody(
@@ -383,8 +385,9 @@ class _MeatPageState extends State<MeatPage> {
                                                     //Submit Button
                                                     InkWell(
                                                       onTap: () {
-                                                        changeAmount(data[index]
-                                                            .get("Name"));
+                                                        changeAmount(
+                                                            data![index]
+                                                                .get("Name"));
                                                         Navigator.of(context)
                                                             .pop();
                                                       },
@@ -419,7 +422,7 @@ class _MeatPageState extends State<MeatPage> {
                                                     //Cancel Button
                                                     InkWell(
                                                       onTap: () {
-                                                        deleteItem(data[index]
+                                                        deleteItem(data![index]
                                                             .get("Name"));
                                                         Navigator.of(context)
                                                             .pop();
@@ -461,7 +464,7 @@ class _MeatPageState extends State<MeatPage> {
                                                   color: Colors.white,
                                                   child: ListTile(
                                                     title: Text(
-                                                      data[index].get("Name"),
+                                                      data![index].get("Name"),
                                                       textAlign: TextAlign.left,
                                                     ),
                                                     trailing: Text(
