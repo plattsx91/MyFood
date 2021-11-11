@@ -97,14 +97,19 @@ class _MainPageState extends State<MainPage> {
               IconButton(
                 icon: FutureBuilder(
                   future: getProfilePic(),
-                  builder: (context,snapshot){
-                    if(snapshot.hasData){
-                      if(snapshot.data == null){
-                        return CircleAvatar(maxRadius: 100,backgroundImage: AssetImage('assets/images/user.png'),);
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data == null) {
+                        return CircleAvatar(
+                          maxRadius: 100,
+                          backgroundImage: AssetImage('assets/images/user.png'),
+                        );
                       }
-                      return CircleAvatar(maxRadius: 100,backgroundImage: NetworkImage(snapshot.data.toString()),);
-                    }
-                    else{
+                      return CircleAvatar(
+                        maxRadius: 100,
+                        backgroundImage: NetworkImage(snapshot.data.toString()),
+                      );
+                    } else {
                       return CircularProgressIndicator();
                     }
                   },
@@ -220,14 +225,9 @@ class _MainPageState extends State<MainPage> {
                       );
                     } else {
                       List<DocumentSnapshot> data =
-                      snapshot.data as List<DocumentSnapshot>;
+                          snapshot.data as List<DocumentSnapshot>;
                       return ListView.builder(
-<<<<<<< HEAD
-                          itemCount:
-                              snapshot.hasData ? snapshot.data.length : 0,
-=======
                           itemCount: data.length,
->>>>>>> upstream/master
                           itemBuilder: (_, index) {
                             return InkWell(
                                 onTap: () => showDialog(
@@ -366,4 +366,3 @@ Future<String> getProfilePic() async {
   // Within your widgets:
   // Image.network(downloadURL);
 }
-

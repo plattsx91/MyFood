@@ -8,13 +8,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:myfood/view/Menu.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:myfood/models/recipe.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class MenuDetail extends StatelessWidget {
   final RecipeModel recipeModel;
-  MenuDetail({@required this.recipeModel});
+  MenuDetail({required this.recipeModel});
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +119,7 @@ class MenuDetail extends StatelessWidget {
                     width: 5,
                   ),
                   Icon(
-                    FlutterIcons.timer_mco,
+                    IconData(0xe662, fontFamily: 'MaterialIcons'),
                   ),
                   SizedBox(
                     width: 5,
@@ -191,7 +190,7 @@ class MenuDetail extends StatelessWidget {
 class Ingredients extends StatelessWidget {
   final RecipeModel recipeModel;
   Ingredients({
-    @required this.recipeModel,
+    required this.recipeModel,
   });
 
   @override
@@ -205,19 +204,26 @@ class Ingredients extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return Row(
                   children: [
-                    Icon(FlutterIcons.circle_double_mco),
+                    Text(
+                      String.fromCharCode(0x2022),
+                      style: new TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                     SizedBox(
                       width: 5,
                     ),
                     Flexible(
                       //color: Colors.amber,
                       //width: deviceWidth,
-                      child: Text(
-                        recipeModel.ingredients[index],
-                        maxLines: 5,
-                        //softWrap: true,
-                        overflow: TextOverflow.visible,
-                      ),
+                      child: Text(recipeModel.ingredients[index],
+                          maxLines: 5,
+                          //softWrap: true,
+                          overflow: TextOverflow.visible,
+                          style: new TextStyle(
+                            fontSize: 15,
+                          )),
                     ),
                   ],
                 );
@@ -235,12 +241,11 @@ class Ingredients extends StatelessWidget {
 class Steps extends StatelessWidget {
   final RecipeModel recipeModel;
   Steps({
-    @required this.recipeModel,
+    required this.recipeModel,
   });
 
   @override
   Widget build(BuildContext context) {
-    int i = 0;
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -280,7 +285,7 @@ class Steps extends StatelessWidget {
 class Equipment extends StatelessWidget {
   final RecipeModel recipeModel;
   Equipment({
-    @required this.recipeModel,
+    required this.recipeModel,
   });
 
   @override
@@ -294,7 +299,13 @@ class Equipment extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return Row(
                   children: [
-                    Icon(FlutterIcons.circle_double_mco),
+                    Text(
+                      String.fromCharCode(0x2022),
+                      style: new TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                     SizedBox(
                       width: 5,
                     ),
@@ -306,6 +317,9 @@ class Equipment extends StatelessWidget {
                         maxLines: 5,
                         //softWrap: true,
                         overflow: TextOverflow.visible,
+                        style: new TextStyle(
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                   ],

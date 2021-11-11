@@ -19,21 +19,21 @@ class Menu extends StatefulWidget {
 }
 
 FirebaseAuth auth = FirebaseAuth.instance;
-//TextEditingController _textController = TextEditingController();
-//TextEditingController _amountController = TextEditingController();
-Future getPosts() async {
-  var db = FirebaseFirestore.instance;
-  final User? user = auth.currentUser;
-  final uid = user?.uid;
+////TextEditingController _textController = TextEditingController();
+////TextEditingController _amountController = TextEditingController();
+//Future getPosts() async {
+//  var db = FirebaseFirestore.instance;
+//  final User? user = auth.currentUser;
+//  final uid = user?.uid;
 
-  //var ref = db.collection("Users").doc(uid).collection("Drawer");
-  //var querySnapshot = await ref.get();
-  //var totalE = querySnapshot.docs.length;
-  QuerySnapshot qn =
-      await db.collection("Users").doc(uid).collection("Drawer").get();
+//  //var ref = db.collection("Users").doc(uid).collection("Drawer");
+//  //var querySnapshot = await ref.get();
+//  //var totalE = querySnapshot.docs.length;
+//  QuerySnapshot qn =
+//      await db.collection("Users").doc(uid).collection("Drawer").get();
 
-  return qn.docs;
-}
+//  return qn.docs;
+//}
 
 //class ListBuilder extends StatelessWidget {
 //  @override
@@ -53,11 +53,51 @@ Future getPosts() async {
 //    }
 //  },
 //);
+//Future<List<dynamic>> getGallery() async {
+//  var db = FirebaseFirestore.instance;
+//  final User? user = auth.currentUser;
+//  final uid = user?.uid;
+//  //QuerySnapshot qn  = db.collection("Users").doc(uid).collection("Drawer").get() as QuerySnapshot<Object?>;
+//  QuerySnapshot qn =
+//      await db.collection("Users").doc(uid).collection("Drawer").get();
+
+//  return qn.docs;
+//}
 
 class MenuState extends State<Menu> {
+  late Future<List<QueryDocumentSnapshot>> docList;
+  //@override
+  //void initState() {
+  //  super.initState();
+  //  // docList = getDoc();
+  //  FutureBuilder(
+  //    future: getDoc(),
+  //    builder: (context, snapshot) {
+  //      if (snapshot.hasData) {
+  //        //List<QueryDocumentSnapshot> data =
+  //        //    snapshot.data as List<QueryDocumentSnapshot>;
+  //        docList = snapshot.data;
+  //        return docList;
+  //      }
+  //    },
+  //  );
+  //}
+
+  Future<List<QueryDocumentSnapshot>> getDoc() async {
+    var db = FirebaseFirestore.instance;
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+    //QuerySnapshot qn  = db.collection("Users").doc(uid).collection("Drawer").get() as QuerySnapshot<Object?>;
+    QuerySnapshot qn =
+        await db.collection("Users").doc(uid).collection("Drawer").get();
+
+    return qn.docs;
+  }
+
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
     double deviceHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(
