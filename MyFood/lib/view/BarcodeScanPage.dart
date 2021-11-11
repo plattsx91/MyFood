@@ -77,10 +77,55 @@ class BarcodeScanPageState extends State<BarcodeScanPage> {
   @override
   Widget build(BuildContext context) {
     final scanResult = this.scanResult;
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Barcode Scanner Example'),
+          titleSpacing: 10.0,
+          centerTitle: true,
+          //leading: InkWell(
+          //  onTap: () => Navigator.pop(context),
+          //  child: Container(
+          //    decoration: BoxDecoration(
+          //      color: Colors.black,
+          //      //border: Border.all(width: 3),
+          //      borderRadius: BorderRadius.all(
+          //        Radius.circular(10),
+          //      ),
+          //    ),
+          //    margin: EdgeInsets.only(
+          //      left: deviceWidth * .05,
+          //      right: (deviceWidth * .001),
+          //      top: deviceHeight * .015,
+          //      bottom: deviceHeight * .015,
+          //    ),
+
+          //    //padding: EdgeInsets.only(left: 100),
+
+          //    child: Center(
+          //      child: Text(
+          //        "Back",
+          //        textAlign: TextAlign.center,
+          //        style: new TextStyle(
+          //            //fontSize: deviceWidth * .03,
+          //            //fontWeight: FontWeight.bold,
+          //            color: Colors.white),
+          //      ),
+          //    ),
+          //  ),
+          //),
+          leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black54,
+            ),
+          ),
+
+          title: const Text('Barcode Scanner'),
           actions: [
             IconButton(
               icon: const Icon(Icons.camera),
