@@ -38,6 +38,7 @@ class _GroceryListPageState extends State<GroceryListPage> {
                         await deleteItem(data[index].id);
                         setState(() {});
                       },
+                      onTap: () => print("yo"),
                     ),
                   );
                 },

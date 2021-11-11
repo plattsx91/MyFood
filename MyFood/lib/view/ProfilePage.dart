@@ -184,9 +184,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: FutureBuilder(
                     future: getProfilePic(),
                     builder: (context,snapshot){
-                      if(snapshot.hasData){
+                      if(snapshot.connectionState == ConnectionState.done){
                         if(snapshot.data == null){
-                          return CircleAvatar(maxRadius: 100,backgroundImage: AssetImage('assets/images/user.png'),);
+                          return Image.asset('assets/images/user.png');
                         }
                         return CircleAvatar(maxRadius: 100,backgroundImage: NetworkImage(snapshot.data.toString()),);
                       }
