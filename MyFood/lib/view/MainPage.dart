@@ -99,13 +99,9 @@ class _MainPageState extends State<MainPage> {
                   icon: FutureBuilder(
                     future: getProfilePic(),
                     builder: (context, snapshot) {
-                      if (snapshot.hasData) {
+                      if (snapshot.connectionState == ConnectionState.done) {
                         if (snapshot.data == null) {
-                          return CircleAvatar(
-                            maxRadius: 100,
-                            backgroundImage:
-                                AssetImage('assets/images/user.png'),
-                          );
+                          return Image.asset('assets/images/user.png');
                         }
                         return CircleAvatar(
                           maxRadius: 100,
