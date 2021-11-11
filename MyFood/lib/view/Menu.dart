@@ -65,7 +65,6 @@ FirebaseAuth auth = FirebaseAuth.instance;
 //}
 
 class MenuState extends State<Menu> {
-  late Future<List<QueryDocumentSnapshot>> docList;
   //@override
   //void initState() {
   //  super.initState();
@@ -84,15 +83,41 @@ class MenuState extends State<Menu> {
   //}
 
   Future<List<QueryDocumentSnapshot>> getDoc() async {
+    List<QueryDocumentSnapshot> docList = [];
     var db = FirebaseFirestore.instance;
     final User? user = auth.currentUser;
     final uid = user?.uid;
-    //QuerySnapshot qn  = db.collection("Users").doc(uid).collection("Drawer").get() as QuerySnapshot<Object?>;
-    QuerySnapshot qn =
-        await db.collection("Users").doc(uid).collection("Drawer").get();
 
-    return qn.docs;
+    await db
+        .collection("Users")
+        .doc(uid)
+        .collection("Drawer")
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        docList.add(doc);
+      });
+    });
+    print(docList);
+    return docList;
   }
+
+  //@override
+  //void initState() {
+  //  super.initState();
+  //  FutureBuilder(
+  //    future: getDoc(),
+  //    builder: (_, snapshot) {
+  //      if (snapshot.hasData) {
+  //        List<QueryDocumentSnapshot> data =
+  //            snapshot.data as List<QueryDocumentSnapshot>;
+  //        //for (var i in docList) {
+  //        print(data);
+  //      }
+  //      return Text("");
+  //    },
+  //  );
+  //}
 
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -101,61 +126,76 @@ class MenuState extends State<Menu> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(
-            width: deviceWidth,
-            //height: deviceHeight,
-            color: Colors.teal[50],
-            child: Column(children: <Widget>[
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                new Container(
-                  //margin: const EdgeInsets.only(bottom: 0),
-                  child: InkWell(
-                      onTap: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MainPage())),
-                      child: Container(
-                          padding: const EdgeInsets.all(0),
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              border: Border.all(width: 3),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          margin: EdgeInsets.only(
-                              left: deviceWidth * .05,
-                              right: deviceWidth * .15,
-                              top: deviceHeight * .03),
-                          width: deviceWidth * .15,
-                          height: deviceHeight * .045,
-                          //padding: EdgeInsets.only(left: 100),
-                          child: Center(
-                            child: Text(
-                              "Back",
-                              textAlign: TextAlign.center,
-                              style: new TextStyle(
-                                  //fontSize: deviceWidth * .03,
-                                  //fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ))),
+          width: deviceWidth,
+          //height: deviceHeight,
+          color: Colors.teal[50],
+          child: Column(children: <Widget>[
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              new Container(
+                //margin: const EdgeInsets.only(bottom: 0),
+                child: InkWell(
+                    onTap: () {
+                      //print("hi");
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MainPage()));
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.all(0),
+                        decoration: BoxDecoration(
+                            color: Colors.black,
+                            border: Border.all(width: 3),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        margin: EdgeInsets.only(
+                            left: deviceWidth * .05,
+                            right: deviceWidth * .15,
+                            top: deviceHeight * .03),
+                        width: deviceWidth * .15,
+                        height: deviceHeight * .045,
+                        //padding: EdgeInsets.only(left: 100),
+                        child: Center(
+                          child: Text(
+                            "Back",
+                            textAlign: TextAlign.center,
+                            style: new TextStyle(
+                                //fontSize: deviceWidth * .03,
+                                //fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ))),
+              ),
+              Center(
+                  child: new Container(
+                height: 60,
+                width: 100,
+                margin: EdgeInsets.only(
+                    left: deviceWidth * .0005, top: deviceWidth * .06),
+                child: Image(
+                  image: AssetImage("assets/images/logo_MyFood.png"),
                 ),
-                Center(
-                    child: new Container(
-                  height: 60,
-                  width: 100,
-                  margin: EdgeInsets.only(
-                      left: deviceWidth * .0005, top: deviceWidth * .06),
-                  child: Image(
-                    image: AssetImage("assets/images/logo_MyFood.png"),
-                  ),
-                )),
-              ]),
-              new Expanded(child: RecipeCard()),
-            ])));
-
-    //Top of page
-    //SizedBox(
-    //  height: 10,
-    //),
-
-    //Row with textbox and Add button
+              )),
+            ]),
+            new Expanded(child: RecipeCard()),
+            FutureBuilder(
+              future: getDoc(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  List<QueryDocumentSnapshot> data =
+                      snapshot.data as List<QueryDocumentSnapshot>;
+                  for (var i in data) {
+                    print(i["Name"]);
+                    //return Text(data[0].id);
+                  }
+                }
+                return Text("");
+                //else {
+                //  print(snapshot.data);
+                //  return CircularProgressIndicator();
+                //}
+              },
+            )
+          ]),
+        ));
   }
 }
 
@@ -247,10 +287,13 @@ class RecipeCard extends StatelessWidget {
     double deviceHeight = MediaQuery.of(context).size.height;
     //if () {}
     return new InkWell(
-        onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => MenuDetail(recipeModel: RecipeModel))),
+        onTap: () {
+          //print(docList)
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MenuDetail(recipeModel: RecipeModel)));
+        },
         child: Container(
           height: 300,
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0),
