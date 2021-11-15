@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class GroceryListPage extends StatefulWidget {
   const GroceryListPage({Key? key}) : super(key: key);
@@ -44,12 +43,27 @@ class _GroceryListPageState extends State<GroceryListPage> {
                 },
               );
             }
-            else{
-              return CircularProgressIndicator();
-            }
-          },
-        )
-      ),
+            return ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  child: ListTile(
+                    title: Text(data[index]["name"]),
+                    trailing: Text(data[index]["place"]),
+                    subtitle: Text("Date:" + data[index]["date"]),
+                    onLongPress: () async {
+                      await deleteItem(data[index].id);
+                      setState(() {});
+                    },
+                  ),
+                );
+              },
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      )),
     );
   }
 }
@@ -57,10 +71,11 @@ class _GroceryListPageState extends State<GroceryListPage> {
 Future<List<QueryDocumentSnapshot>> getGroceryList() async {
   List<QueryDocumentSnapshot> arr = [];
   await FirebaseFirestore.instance
-  .collection('Users')
-  .doc("0WPVnyaGEGOZDM8koHtX4gLnR443").collection("food")
-  .get()
-  .then((QuerySnapshot querySnapshot) {
+      .collection('Users')
+      .doc("0WPVnyaGEGOZDM8koHtX4gLnR443")
+      .collection("food")
+      .get()
+      .then((QuerySnapshot querySnapshot) {
     querySnapshot.docs.forEach((doc) {
       arr.add(doc);
     });
@@ -69,8 +84,11 @@ Future<List<QueryDocumentSnapshot>> getGroceryList() async {
 }
 
 Future<void> deleteItem(String id) {
-  return FirebaseFirestore.instance.collection("Users")
-      .doc('0WPVnyaGEGOZDM8koHtX4gLnR443').collection("food").doc(id)
+  return FirebaseFirestore.instance
+      .collection("Users")
+      .doc('0WPVnyaGEGOZDM8koHtX4gLnR443')
+      .collection("food")
+      .doc(id)
       .delete()
       .then((value) => print("Item Deleted"))
       .catchError((error) => print("Failed to delete item: $error"));
