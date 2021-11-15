@@ -43,25 +43,9 @@ class _GroceryListPageState extends State<GroceryListPage> {
                 },
               );
             }
-            return ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  child: ListTile(
-                    title: Text(data[index]["name"]),
-                    trailing: Text(data[index]["place"]),
-                    subtitle: Text("Date:" + data[index]["date"]),
-                    onLongPress: () async {
-                      await deleteItem(data[index].id);
-                      setState(() {});
-                    },
-                  ),
-                );
-              },
-            );
-          } else {
-            return CircularProgressIndicator();
-          }
+            else{
+              return CircularProgressIndicator();
+            }
         },
       )),
     );

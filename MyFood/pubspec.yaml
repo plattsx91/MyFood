@@ -34,6 +34,7 @@ dependencies:
   firebase_core_platform_interface: ^4.0.1
   intl: ^0.17.0
   multi_select_flutter: ^4.0.0
+  multiselect_formfield: ^0.1.6
   firebase_storage: "^8.0.0-1.0.nullsafety.1"
 
   # dependencies relating to barcode scanning
