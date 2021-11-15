@@ -1,4 +1,3 @@
-import 'Login.dart';
 import 'package:flutter/material.dart';
 
 class Menu extends StatefulWidget {
@@ -12,7 +11,7 @@ class MenuState extends State<Menu> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: RaisedButton(
+        child: TextButton(
           child: Text("Return to login"),
           onPressed: () {
             Navigator.pop(context);
