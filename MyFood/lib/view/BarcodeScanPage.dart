@@ -77,6 +77,8 @@ class BarcodeScanPageState extends State<BarcodeScanPage> {
   @override
   Widget build(BuildContext context) {
     final scanResult = this.scanResult;
+    double deviceWidth = MediaQuery.of(context).size.width;
+    double deviceHeight = MediaQuery.of(context).size.height;
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(

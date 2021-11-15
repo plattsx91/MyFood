@@ -222,9 +222,9 @@ class LoginState extends State<LoginScreen> {
                   ),
                   Container(
                     height: 30,
-                    width: 155,
-                    child: TextButton(
-                      onPressed: () {
+                    width: 160,
+                    child: InkWell(
+                      onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -246,8 +246,8 @@ class LoginState extends State<LoginScreen> {
                   Container(
                     height: 30,
                     width: 90,
-                    child: TextButton(
-                      onPressed: () {
+                    child: InkWell(
+                      onTap: () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(

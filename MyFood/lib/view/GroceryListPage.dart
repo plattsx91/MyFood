@@ -14,15 +14,33 @@ class _GroceryListPageState extends State<GroceryListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: FutureBuilder(
-        future: getGroceryList(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<QueryDocumentSnapshot> data =
-                snapshot.data as List<QueryDocumentSnapshot>;
-            if (data.isEmpty) {
-              return Center(
-                child: Text("You have nothing in your groceryList"),
+        child: FutureBuilder(
+          future: getGroceryList(),
+          builder: (context,snapshot){
+            if(snapshot.hasData){
+              List<QueryDocumentSnapshot> data =
+              snapshot.data as List<QueryDocumentSnapshot>;
+              if(data.isEmpty){
+                return Center(
+                  child: Text("You have nothing in your groceryList"),
+                );
+              }
+              return ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context,index){
+                  return Container(
+                    child: ListTile(
+                      title: Text(data[index]["name"]),
+                      trailing: Text(data[index]["place"]),
+                      subtitle: Text("Date:" + data[index]["date"]),
+                      onLongPress: () async{
+                        await deleteItem(data[index].id);
+                        setState(() {});
+                      },
+                      onTap: () => print("yo"),
+                    ),
+                  );
+                },
               );
             }
             return ListView.builder(
