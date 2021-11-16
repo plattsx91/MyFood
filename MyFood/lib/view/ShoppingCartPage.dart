@@ -26,8 +26,12 @@ class ShoppingCartPage extends StatefulWidget {
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   final textEditingController = TextEditingController();
-  bool validated = true;
-  String errorText = "";
+  final textEditingController2 = TextEditingController();
+
+  bool validated1 = true;
+  bool validated2 = true;
+  String errorText1 = "";
+  String errorText2 = "";
   String todoEdited = "";
   Stream<QuerySnapshot>? dataList;
 
@@ -46,6 +50,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   void showAlertDialog() {
     textEditingController.text = "";
+    textEditingController2.text = "";
     showDialog(
         context: context,
         builder: (context) {
@@ -61,7 +66,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  TextField(
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: textEditingController,
                     autofocus: true,
                     onChanged: (_val) {
@@ -72,7 +78,24 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                       fontFamily: "Raleway",
                     ),
                     decoration: InputDecoration(
-                      errorText: validated ? null : errorText,
+                      labelText: "Food Item",
+                      errorText: validated1 ? null : errorText1,
+                    ),
+                  ),
+                  TextFormField(
+                    controller: textEditingController2,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //autofocus: true,
+                    onChanged: (_val) {
+                      todoEdited = _val;
+                    },
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontFamily: "Raleway",
+                    ),
+                    decoration: InputDecoration(
+                      labelText: "Purchase Location",
+                      errorText: validated2 ? null : errorText2,
                     ),
                   ),
                   Padding(
@@ -86,18 +109,39 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                           onTap: () {
                             if (textEditingController.text.isEmpty) {
                               setState(() {
-                                errorText = "Can't Be Empty";
-                                validated = false;
+                                errorText1 = "Can't Be Empty";
+                                validated1 = false;
+                                //validated1 = true;
+                              });
+                            } else if (textEditingController2.text.isEmpty) {
+                              setState(() {
+                                errorText2 = "Can't Be Empty";
+                                validated2 = false;
+                                //validated2 = true;
                               });
                             } else if (textEditingController.text.length >
                                 512) {
                               setState(() {
-                                errorText = "Too may Characters";
-                                validated = false;
+                                errorText1 = "Too may Characters";
+                                validated1 = false;
+                                //validated1 = true;
+                              });
+                            } else if (textEditingController2.text.length >
+                                512) {
+                              setState(() {
+                                errorText2 = "Too may Characters";
+                                validated2 = false;
+                                //validated1 = true;
                               });
                             } else {
                               DatabaseHelper().createNewTask(
-                                  textEditingController.text, user?.uid);
+                                  textEditingController.text,
+                                  textEditingController2.text,
+                                  user?.uid);
+
+                              textEditingController.clear();
+                              textEditingController2.clear();
+
                               Navigator.of(context).pop();
                             }
                           },
@@ -239,6 +283,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                     fontFamily: "Raleway",
                                   ),
                                 ),
+                                trailing: Text(todo["Purchase Location"]),
                                 onTap: () {
                                   FirebaseFirestore.instance
                                       .collection("Users")
