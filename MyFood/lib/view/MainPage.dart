@@ -86,6 +86,7 @@ class _MainPageState extends State<MainPage> {
     double deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       //This is the mint color for backgrounds
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffe0f7f3),
 
       body: SafeArea(
