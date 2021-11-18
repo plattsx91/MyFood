@@ -3,25 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/services.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
+import 'OpenFoodFactsAPI.dart';
 
 class BarcodeScanPage extends StatefulWidget {
   @override
   BarcodeScanPageState createState() {
     return new BarcodeScanPageState();
-  }
-}
-
-// gets product name based on barcode
-Future<Product> getProduct(var barcode) async {
-  ProductQueryConfiguration configuration = ProductQueryConfiguration(barcode,
-      language: OpenFoodFactsLanguage.ENGLISH, fields: [ProductField.ALL]);
-  ProductResult result = await OpenFoodAPIClient.getProduct(configuration);
-
-  if (result.status == 1) {
-    return result.product!;
-  } else {
-    throw Exception('product not found, please insert data for ' +
-        barcode); // have to do this eventually
   }
 }
 
@@ -32,7 +19,6 @@ class BarcodeScanPageState extends State<BarcodeScanPage> {
   final _cancelController = TextEditingController(text: 'Cancel');
 
   var _aspectTolerance = 0.00;
-  var _numberOfCameras = 0;
   var _selectedCamera = -1;
   var _useAutoFocus = true;
   var _autoEnableFlash = false;
@@ -75,8 +61,6 @@ class BarcodeScanPageState extends State<BarcodeScanPage> {
   @override
   Widget build(BuildContext context) {
     final scanResult = this.scanResult;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
