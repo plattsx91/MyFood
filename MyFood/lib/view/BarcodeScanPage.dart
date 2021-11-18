@@ -19,7 +19,6 @@ class BarcodeScanPageState extends State<BarcodeScanPage> {
   final _cancelController = TextEditingController(text: 'Cancel');
 
   var _aspectTolerance = 0.00;
-  var _numberOfCameras = 0;
   var _selectedCamera = -1;
   var _useAutoFocus = true;
   var _autoEnableFlash = false;
@@ -62,8 +61,6 @@ class BarcodeScanPageState extends State<BarcodeScanPage> {
   @override
   Widget build(BuildContext context) {
     final scanResult = this.scanResult;
-    double deviceWidth = MediaQuery.of(context).size.width;
-    double deviceHeight = MediaQuery.of(context).size.height;
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
