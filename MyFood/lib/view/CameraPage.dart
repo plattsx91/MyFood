@@ -4,17 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'ProfilePage.dart';
 
 class CameraSetup {
   static Future<void> runCamera(context) async {
     final cameras = await availableCameras();
     final firstCamera = cameras.first;
-    Navigator.push(
+    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
             builder: (context) => CameraPage(
                   camera: firstCamera,
-                )));
+            )
+        )
+    );
   }
 }
 
@@ -139,7 +142,12 @@ class DisplayPictureScreen extends StatelessWidget {
                   await uploadFile(imagePath);
                   //bad code but gets the job done lol
                   Navigator.pop(context);
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfilePage()
+                      )
+                  );
                 },
                 child: const Icon(Icons.check),
               ),

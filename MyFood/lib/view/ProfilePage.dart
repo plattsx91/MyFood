@@ -347,26 +347,31 @@ class _ProfilePageState extends State<ProfilePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  icon: FutureBuilder(
-                    future: getProfilePic(),
-                    builder: (context,snapshot){
-                      if(snapshot.connectionState == ConnectionState.done){
-                        if(snapshot.data == null){
-                          return Image.asset('assets/images/user.png');
-                        }
-                        return CircleAvatar(maxRadius: 100,backgroundImage: NetworkImage(snapshot.data.toString()),);
-                      }
-                      else{
-                        return CircularProgressIndicator();
-                      }
-                    },
-                  ),
-                  iconSize: deviceHeight * .28,
-                  onPressed: () async {
-                    await CameraSetup.runCamera(context);
+                GestureDetector(
+                  onLongPress: () async {
+                    await deleteProfilePic();
                     setState(() {});
                   },
+                  child: IconButton(
+                    icon: FutureBuilder(
+                      future: getProfilePic(),
+                      builder: (context,snapshot){
+                        if(snapshot.connectionState == ConnectionState.done){
+                          if(snapshot.data == null){
+                            return Image.asset('assets/images/user.png');
+                          }
+                          return CircleAvatar(maxRadius: 100,backgroundImage: NetworkImage(snapshot.data.toString()),);
+                        }
+                        else{
+                          return CircularProgressIndicator();
+                        }
+                      },
+                    ),
+                    iconSize: deviceHeight * .28,
+                    onPressed: () async {
+                      await CameraSetup.runCamera(context);
+                    },
+                  ),
                 )
               ],
             ),
@@ -471,4 +476,15 @@ Future<String> getProfilePic() async {
   return downloadURL;
   // Within your widgets:
   // Image.network(downloadURL);
+}
+
+Future<void> deleteProfilePic() async {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  try{
+    await firebase_storage.FirebaseStorage.instance
+        .ref('profilePics/' + auth.currentUser!.uid)
+        .delete();
+  }catch(e){
+    print("did not exist");
+  }
 }
