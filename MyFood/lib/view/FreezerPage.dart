@@ -218,20 +218,29 @@ class _FreezerPageState extends State<FreezerPage> {
                                       subtitle: Text(productName),
                                     ),
                                     // Drop down UOM goes here
-                                    new DropdownButton<String>(
-                                      items: <String>[
-                                        'Boxes',
-                                        'Bags',
-                                        'Pounds',
-                                        'Ounces'
-                                      ].map((String value) {
-                                        return new DropdownMenuItem<String>(
-                                          value: value,
-                                          child: new Text(value),
-                                        );
-                                      }).toList(),
-                                      onChanged: (_) {},
-                                    )
+                                      DropdownButton<String>(
+                                        value: dropdownValue,
+                                        icon: const Icon(Icons.arrow_downward),
+                                        iconSize: 24,
+                                        elevation: 16,
+                                        style: const TextStyle(color: Colors.deepPurple),
+                                        underline: Container(
+                                          height: 2,
+                                          color: Colors.deepPurpleAccent,
+                                        ),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            dropdownValue = newValue!;
+                                          });
+                                        },
+                                        items: <String>['One', 'Two', 'Free', 'Four']
+                                            .map<DropdownMenuItem<String>>((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                      )
                                   ])),
                                   actions: <Widget>[
                                     // scan button
