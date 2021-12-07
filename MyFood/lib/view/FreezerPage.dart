@@ -17,6 +17,7 @@ class FreezerPage extends StatefulWidget {
 
 class _FreezerPageState extends State<FreezerPage> {
   late DateTime _dateTime;
+  String? dropdownValue = "Boxes";
 
   //Initialize the database, text controller for food item, and amount controller for food item
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -218,29 +219,35 @@ class _FreezerPageState extends State<FreezerPage> {
                                       subtitle: Text(productName),
                                     ),
                                     // Drop down UOM goes here
-                                      DropdownButton<String>(
-                                        value: dropdownValue,
-                                        icon: const Icon(Icons.arrow_downward),
-                                        iconSize: 24,
-                                        elevation: 16,
-                                        style: const TextStyle(color: Colors.deepPurple),
-                                        underline: Container(
-                                          height: 2,
-                                          color: Colors.deepPurpleAccent,
-                                        ),
-                                        onChanged: (String? newValue) {
-                                          setState(() {
-                                            dropdownValue = newValue!;
-                                          });
-                                        },
-                                        items: <String>['One', 'Two', 'Free', 'Four']
-                                            .map<DropdownMenuItem<String>>((String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(value),
-                                          );
-                                        }).toList(),
-                                      )
+                                    DropdownButton<String>(
+                                      value: dropdownValue,
+                                      icon: const Icon(Icons.arrow_downward),
+                                      iconSize: 24,
+                                      elevation: 16,
+                                      style: const TextStyle(
+                                          color: Colors.deepPurple),
+                                      underline: Container(
+                                        height: 2,
+                                        color: Colors.deepPurpleAccent,
+                                      ),
+                                      onChanged: (String? newValue) {
+                                        setState(() {
+                                          dropdownValue = newValue!;
+                                        });
+                                      },
+                                      items: <String>[
+                                        'Boxes',
+                                        'Ounces',
+                                        'Pounds',
+                                        'Cans'
+                                      ].map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                    )
                                   ])),
                                   actions: <Widget>[
                                     // scan button
