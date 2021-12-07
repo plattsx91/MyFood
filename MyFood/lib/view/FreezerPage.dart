@@ -1,9 +1,12 @@
+import 'package:barcode_scan2/barcode_scan2.dart';
+import 'package:myfood/view/BarcodeScanPage.dart';
 import 'package:myfood/view/FridgePage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:myfood/view/OpenFoodFactsAPI.dart';
+import 'package:openfoodfacts/model/Product.dart';
 
 class FreezerPage extends StatefulWidget {
   FreezerPage({Key? key}) : super(key: key);
@@ -15,12 +18,11 @@ class FreezerPage extends StatefulWidget {
 class _FreezerPageState extends State<FreezerPage> {
   late DateTime _dateTime;
 
-  //FirebaseFirestore db = FirebaseFirestore.getInstance();
-
   //Initialize the database, text controller for food item, and amount controller for food item
   FirebaseAuth auth = FirebaseAuth.instance;
   TextEditingController _textController = TextEditingController();
   TextEditingController _amountController = TextEditingController();
+  String productName = "";
 
 //Ask for all of the food items from the current user
   Future getPosts() async {
@@ -88,6 +90,26 @@ class _FreezerPageState extends State<FreezerPage> {
           .delete();
     });
     _amountController.clear();
+  }
+
+  // moves to barcode scanner and sets productName as result
+  void _awaitBarcodeScan(BuildContext context) async {
+    // start the SecondScreen and wait for it to finish with a result
+    ScanResult result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BarcodeScanPage(),
+        ));
+
+    // after the SecondScreen result comes back update the Text widget with it
+    setState(() {
+      // the barcode
+      Future<Product> future = getProduct(result.rawContent);
+      future.then((value) {
+        productName = value.productName!;
+        _textController.text = productName;
+      });
+    });
   }
 
   @override
@@ -161,7 +183,7 @@ class _FreezerPageState extends State<FreezerPage> {
                               borderSide:
                                   BorderSide(color: Colors.blue, width: 3.0),
                             ),
-                            hintText: 'Enter a Food Item Here'),
+                            hintText: "Type an item here"),
                       ),
                     ),
                     //Add Item Button
@@ -192,6 +214,9 @@ class _FreezerPageState extends State<FreezerPage> {
                                           ),
                                           hintText: 'Set Amount'),
                                     ),
+                                    ListTile(
+                                      subtitle: Text(productName),
+                                    ),
                                     // Drop down UOM goes here
                                     new DropdownButton<String>(
                                       items: <String>[
@@ -209,6 +234,17 @@ class _FreezerPageState extends State<FreezerPage> {
                                     )
                                   ])),
                                   actions: <Widget>[
+                                    // scan button
+                                    ElevatedButton(
+                                      child: Text('Scan'),
+                                      onPressed: () {
+                                        _awaitBarcodeScan(context);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.red, // background
+                                        onPrimary: Colors.white, // foreground
+                                      ),
+                                    ),
                                     //Expiration date picker
                                     ElevatedButton(
                                       child: Text('Expiration Date'),

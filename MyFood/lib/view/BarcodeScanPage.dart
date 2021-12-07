@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/services.dart';
-import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:openfoodfacts/model/Product.dart';
+import 'package:openfoodfacts/utils/LanguageHelper.dart';
+
 import 'OpenFoodFactsAPI.dart';
 
 class BarcodeScanPage extends StatefulWidget {
@@ -26,7 +28,7 @@ class BarcodeScanPageState extends State<BarcodeScanPage> {
     ..removeWhere((e) => e == BarcodeFormat.unknown);
 
   List<BarcodeFormat> selectedFormats = [..._possibleFormats];
-  Future _scanQR() async {
+  Future scanQR() async {
     try {
       final result = await BarcodeScanner.scan(
         options: ScanOptions(
@@ -44,7 +46,12 @@ class BarcodeScanPageState extends State<BarcodeScanPage> {
           ),
         ),
       );
-      setState(() => scanResult = result);
+      // leave this commented out unless you want to
+      // test the FutureBuilder below
+      //setState(() => scanResult = result);
+
+      // comment this out to show futurebuilder stuff below
+      Navigator.pop(context, result);
     } on PlatformException catch (e) {
       setState(() {
         scanResult = ScanResult(
@@ -60,7 +67,6 @@ class BarcodeScanPageState extends State<BarcodeScanPage> {
 
   @override
   Widget build(BuildContext context) {
-    final scanResult = this.scanResult;
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
@@ -69,35 +75,10 @@ class BarcodeScanPageState extends State<BarcodeScanPage> {
           IconButton(
             icon: const Icon(Icons.camera),
             tooltip: 'Scan',
-            onPressed: _scanQR,
+            onPressed: scanQR,
           )
         ],
       ),
-      body: FutureBuilder(
-          future: getProduct(scanResult?.rawContent),
-          builder: (_, snapshot) {
-            Product result = snapshot.data as Product;
-            String ingredients = result.ingredientsText!;
-            if (scanResult != null) {
-              return ListView(
-                scrollDirection: Axis.vertical,
-                children: <Widget>[
-                  ListTile(
-                    title: Text("Barcode"),
-                    subtitle: Text(scanResult.rawContent),
-                  ),
-                  ListTile(
-                    title: Text("Product"),
-                    subtitle: Text(result.productNameInLanguages![
-                        OpenFoodFactsLanguage.ENGLISH]!),
-                  ),
-                  ListTile(
-                      title: Text("Indgedients"), subtitle: Text(ingredients))
-                ],
-              );
-            }
-            return Text("Error");
-          }),
     ));
   }
 }
