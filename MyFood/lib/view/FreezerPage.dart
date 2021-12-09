@@ -1,12 +1,12 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:myfood/view/BarcodeScanPage.dart';
-import 'package:myfood/view/FridgePage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:myfood/view/OpenFoodFactsAPI.dart';
 import 'package:openfoodfacts/model/Product.dart';
+import 'package:myfood/view/FridgePage.dart';
 
 class FreezerPage extends StatefulWidget {
   FreezerPage({Key? key}) : super(key: key);
