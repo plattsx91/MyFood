@@ -1,9 +1,14 @@
+import 'package:barcode_scan2/gen/protos/protos.pb.dart';
 import 'package:myfood/view/FridgePage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:openfoodfacts/model/Product.dart';
+
+import 'BarcodeScanPage.dart';
+import 'OpenFoodFactsAPI.dart';
 
 class MeatPage extends StatefulWidget {
   MeatPage({Key? key}) : super(key: key);
@@ -19,6 +24,7 @@ class _MeatPageState extends State<MeatPage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   TextEditingController _textController = TextEditingController();
   TextEditingController _amountController = TextEditingController();
+  String productName = "";
 
 //Ask for all of the food items from the current user
   Future getPosts() async {
@@ -86,6 +92,26 @@ class _MeatPageState extends State<MeatPage> {
           .delete();
     });
     _amountController.clear();
+  }
+
+  // moves to barcode scanner and sets productName as result
+  void _awaitBarcodeScan(BuildContext context) async {
+    // start the SecondScreen and wait for it to finish with a result
+    ScanResult result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BarcodeScanPage(),
+        ));
+
+    // after the SecondScreen result comes back update the Text widget with it
+    setState(() {
+      // the barcode
+      Future<Product> future = getProduct(result.rawContent);
+      future.then((value) {
+        productName = value.productName!;
+        _textController.text = productName;
+      });
+    });
   }
 
   @override
@@ -207,6 +233,16 @@ class _MeatPageState extends State<MeatPage> {
                                     )
                                   ])),
                                   actions: <Widget>[
+                                    ElevatedButton(
+                                      child: Text('Scan'),
+                                      onPressed: () {
+                                        _awaitBarcodeScan(context);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.red, // background
+                                        onPrimary: Colors.white, // foreground
+                                      ),
+                                    ),
                                     //Expiration date picker
                                     ElevatedButton(
                                       child: Text('Expiration Date'),

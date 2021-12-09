@@ -2,10 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/services.dart';
-import 'package:openfoodfacts/model/Product.dart';
-import 'package:openfoodfacts/utils/LanguageHelper.dart';
-
-import 'OpenFoodFactsAPI.dart';
 
 class BarcodeScanPage extends StatefulWidget {
   @override
