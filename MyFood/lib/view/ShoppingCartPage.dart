@@ -139,10 +139,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                   textEditingController2.text,
                                   user?.uid);
 
+                              Navigator.of(context).pop();
                               textEditingController.clear();
                               textEditingController2.clear();
-
-                              Navigator.of(context).pop();
                             }
                           },
                           child: Container(
@@ -236,7 +235,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               );
             case ConnectionState.active:
               int itemCount = asyncSnapshot.data!.docs.length;
-
               return Scaffold(
                 appBar: AppBar(
                   titleSpacing: 10.0,

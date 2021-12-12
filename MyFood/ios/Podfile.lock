@@ -351,56 +351,56 @@ PODS:
   - camera (0.0.1):
     - Flutter
   - cloud_firestore (2.5.4):
-    - Firebase/Firestore (= 8.8.0)
+    - Firebase/Firestore (= 8.9.0)
     - firebase_core
     - Flutter
-  - Firebase/Auth (8.8.0):
+  - Firebase/Auth (8.9.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (~> 8.8.0)
-  - Firebase/CoreOnly (8.8.0):
-    - FirebaseCore (= 8.8.0)
-  - Firebase/Database (8.8.0):
+    - FirebaseAuth (~> 8.9.0)
+  - Firebase/CoreOnly (8.9.0):
+    - FirebaseCore (= 8.9.0)
+  - Firebase/Database (8.9.0):
     - Firebase/CoreOnly
-    - FirebaseDatabase (~> 8.8.0)
-  - Firebase/Firestore (8.8.0):
+    - FirebaseDatabase (~> 8.9.0)
+  - Firebase/Firestore (8.9.0):
     - Firebase/CoreOnly
-    - FirebaseFirestore (~> 8.8.0)
-  - Firebase/Storage (8.8.0):
+    - FirebaseFirestore (~> 8.9.0)
+  - Firebase/Storage (8.9.0):
     - Firebase/CoreOnly
-    - FirebaseStorage (~> 8.8.0)
-  - firebase_auth (3.1.4):
-    - Firebase/Auth (= 8.8.0)
+    - FirebaseStorage (~> 8.9.0)
+  - firebase_auth (3.3.3):
+    - Firebase/Auth (= 8.9.0)
     - firebase_core
     - Flutter
-  - firebase_core (1.8.0):
-    - Firebase/CoreOnly (= 8.8.0)
+  - firebase_core (1.10.5):
+    - Firebase/CoreOnly (= 8.9.0)
     - Flutter
   - firebase_database (6.1.2):
-    - Firebase/Database (= 8.8.0)
+    - Firebase/Database (= 8.9.0)
     - firebase_core
     - Flutter
   - firebase_storage (8.1.3):
-    - Firebase/Storage (= 8.8.0)
+    - Firebase/Storage (= 8.9.0)
     - firebase_core
     - Flutter
-  - FirebaseAuth (8.8.0):
+  - FirebaseAuth (8.9.0):
     - FirebaseCore (~> 8.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
-    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.6)
+    - GoogleUtilities/Environment (~> 7.6)
     - GTMSessionFetcher/Core (~> 1.5)
-  - FirebaseCore (8.8.0):
+  - FirebaseCore (8.9.0):
     - FirebaseCoreDiagnostics (~> 8.0)
-    - GoogleUtilities/Environment (~> 7.4)
-    - GoogleUtilities/Logger (~> 7.4)
-  - FirebaseCoreDiagnostics (8.9.0):
+    - GoogleUtilities/Environment (~> 7.6)
+    - GoogleUtilities/Logger (~> 7.6)
+  - FirebaseCoreDiagnostics (8.10.0):
     - GoogleDataTransport (~> 9.1)
     - GoogleUtilities/Environment (~> 7.6)
     - GoogleUtilities/Logger (~> 7.6)
     - nanopb (~> 2.30908.0)
-  - FirebaseDatabase (8.8.0):
+  - FirebaseDatabase (8.9.0):
     - FirebaseCore (~> 8.0)
     - leveldb-library (~> 1.22)
-  - FirebaseFirestore (8.8.0):
+  - FirebaseFirestore (8.9.1):
     - abseil/algorithm (= 0.20200225.0)
     - abseil/base (= 0.20200225.0)
     - abseil/container/flat_hash_map (= 0.20200225.0)
@@ -413,7 +413,7 @@ PODS:
     - "gRPC-C++ (~> 1.28.0)"
     - leveldb-library (~> 1.22)
     - nanopb (~> 2.30908.0)
-  - FirebaseStorage (8.8.0):
+  - FirebaseStorage (8.9.0):
     - FirebaseCore (~> 8.0)
     - GTMSessionFetcher/Core (~> 1.5)
   - Flutter (1.0.0)
@@ -470,7 +470,7 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - path_provider (0.0.1):
+  - path_provider_ios (0.0.1):
     - Flutter
   - PromisesObjC (2.0.0)
   - SwiftProtobuf (1.18.0)
@@ -485,7 +485,7 @@ DEPENDENCIES:
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - flutter_barcode_scanner (from `.symlinks/plugins/flutter_barcode_scanner/ios`)
-  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -528,26 +528,26 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_barcode_scanner:
     :path: ".symlinks/plugins/flutter_barcode_scanner/ios"
-  path_provider:
-    :path: ".symlinks/plugins/path_provider/ios"
+  path_provider_ios:
+    :path: ".symlinks/plugins/path_provider_ios/ios"
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   barcode_scan2: 0af2bb63c81b4565aab6cd78278e4c0fa136dbb0
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
-  camera: 3164201dc344383e62282964016528c4f5a9ad50
-  cloud_firestore: 814002a5be7dc955deaa18216ebe8c2e8be15d10
-  Firebase: 629510f1a9ddb235f3a7c5c8ceb23ba887f0f814
-  firebase_auth: 0b7168e2db1bff6e5b40a7dc268447b8dedb59c1
-  firebase_core: 3b4c707f5a8eff38f52fd5580895bcd89357bf42
-  firebase_database: b697c03db00895bbc2e27922fcf794454b2bac1d
-  firebase_storage: 092052b3fb85cca715f3d895b8bf5a209918fca5
-  FirebaseAuth: bcf0adeff88bda5dcb3beeabe5760f1226ab7b2f
-  FirebaseCore: 98b29e3828f0a53651c363937a7f7d92a19f1ba2
-  FirebaseCoreDiagnostics: 5daa63f1c1409d981a2d5007daa100b36eac6a34
-  FirebaseDatabase: bc4610ff3a816dcc680c1dbccf7f9f4bd94ac07d
-  FirebaseFirestore: 29baf05d5e7e0d5003eb34e5805d92b9858b36d4
-  FirebaseStorage: 54ff752ecbd27f1c354c3f5e8c55f6ad5783699b
+  camera: fe33292aff715a981eb34d7ce7b35b54337ff34c
+  cloud_firestore: 0c744725c0d1544d77db2c8eb35ef919cb19a176
+  Firebase: 13d8d96499e2635428d5bf0ec675df21f95d9a95
+  firebase_auth: fe3a1deb12ebd850295344234abc15588d086baf
+  firebase_core: dfcae4c150a5e24436a0b7677c470478a234d5bf
+  firebase_database: a2e4ee387a1000c8fa10a63800e5e918cbfc4f79
+  firebase_storage: 39996be7253905d53dd8eee83edc149d43d10f5e
+  FirebaseAuth: 2b78b2a32c07b3ecfa4970bdf1d3632b8304099b
+  FirebaseCore: 599ee609343eaf4941bd188f85e3aa077ffe325b
+  FirebaseCoreDiagnostics: 56fb7216d87e0e6ec2feddefa9d8a392fe8b2c18
+  FirebaseDatabase: 2236b804cf0cac165b4620669bedf7ee643a2bcc
+  FirebaseFirestore: 15ae9648476436efed698a909e44c4737498f9b4
+  FirebaseStorage: 452c98c31ccb40b819764bf3039426c4388d9939
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   flutter_barcode_scanner: 7a1144744c28dc0c57a8de7218ffe5ec59a9e4bf
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
@@ -558,10 +558,10 @@ SPEC CHECKSUMS:
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SwiftProtobuf: c3c12645230d9b09c72267e0de89468c5543bd86
 
-PODFILE CHECKSUM: e708eab1b9d81ad0d9b677b912c01798a9bfa858
+PODFILE CHECKSUM: 3502c4fd81564a93c5d05c2ae3341444d53a98f2
 
-COCOAPODS: 1.11.0
+COCOAPODS: 1.11.2
