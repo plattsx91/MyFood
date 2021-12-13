@@ -19,6 +19,8 @@ import 'package:path/path.dart';
 class APIManager {
   Future<List<FindRecipes>> getRecipes() async {
     var client = http.Client();
+    //FirebaseAuth auth = FirebaseAuth.instance;
+
     Future<List<QueryDocumentSnapshot>> getDoc() async {
       List<QueryDocumentSnapshot> docList = [];
       var db = FirebaseFirestore.instance;
@@ -49,16 +51,25 @@ class APIManager {
                 snapshot.data as List<QueryDocumentSnapshot>;
             for (var i in data) {
               fridge.add(i["Name"]);
+              print("F");
               //return Text(data[0].id);
             }
           }
-          return Text("");
+          if (snapshot.hasError) {
+            print('Error: ${snapshot.error}');
+            return Text('Error: ${snapshot.error}');
+          } else {
+            print("JI");
+            return Text("HI");
+          }
         });
 
     //List<String> fridge = ["apples,", "flour", "sugar"];
     int num = fridge.length;
     String ingred = fridge.join(',+');
-    const String API_KEY = "dee8524179dc4fa0a540db9d7e5bea67";
+    const String API_KEY = "";
+    //const String API_KEY = "dee8524179dc4fa0a540db9d7e5bea67";
+
     String request1 =
         'https://api.spoonacular.com/recipes/findByIngredients?ingredients=';
     request1 += ingred + '&number=' + num.toString() + '&apiKey=' + API_KEY;
