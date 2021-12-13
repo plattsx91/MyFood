@@ -178,8 +178,18 @@ class LoginState extends State<LoginScreen> {
                       child: ElevatedButton(
                         onPressed: () async {
                           await Firebase.initializeApp();
+                          if(userController.text == ""){
+                            return;
+                          }
+                          if(passwordController.text == ""){
+                            return;
+                          }
                           try {
                             //final uid = user.user.uid;
+                            await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                email: userController.text,
+                                password: passwordController.text
+                            );
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
