@@ -10,6 +10,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:myfood/view/MenuDetail.dart';
 import 'package:myfood/app/services/api_keys.dart';
 import 'package:path/path.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Menu extends StatefulWidget {
   Menu({Key? key}) : super(key: key);
@@ -84,6 +86,12 @@ class MenuState extends State<Menu> {
   //  //  },
   //  //);
   //}
+  //List ids = [];
+  //    for (var j in recipeModel) {
+  //      ids.add(j.id);
+  //    }
+  //print(ids);
+  //String iD = ids.join(",");
 
   Future<List<QueryDocumentSnapshot>> getDoc() async {
     List<QueryDocumentSnapshot> docList = [];
@@ -104,23 +112,6 @@ class MenuState extends State<Menu> {
     print(docList);
     return docList;
   }
-
-  //@override
-  //void initState() {
-  //  super.initState();
-  //  FutureBuilder(
-  //    future: getDoc(),
-  //    builder: (_, snapshot) {
-  //      if (snapshot.hasData) {
-  //        List<QueryDocumentSnapshot> data =
-  //            snapshot.data as List<QueryDocumentSnapshot>;
-  //        //for (var i in docList) {
-  //        print(data);
-  //      }
-  //      return Text("");
-  //    },
-  //  );
-  //}
 
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
@@ -179,24 +170,6 @@ class MenuState extends State<Menu> {
               )),
             ]),
             new Expanded(child: RecipeCard()),
-            //FutureBuilder(
-            //  future: getDoc(),
-            //  builder: (context, snapshot) {
-            //    if (snapshot.hasData) {
-            //      List<QueryDocumentSnapshot> data =
-            //          snapshot.data as List<QueryDocumentSnapshot>;
-            //      //for (var i in data) {
-            //      //  print(i["Name"]);
-            //      //  //return Text(data[0].id);
-            //      //}
-            //    }
-            //    return Text("");
-            //    //else {
-            //    //  print(snapshot.data);
-            //    //  return CircularProgressIndicator();
-            //    //}
-            //  },
-            //)
           ]),
         ));
   }
@@ -204,74 +177,6 @@ class MenuState extends State<Menu> {
 
 class RecipeCard extends StatelessWidget {
   //const MyStatelessWidget({Key key}) : super(key: key);
-  final List<RecipeModel> recipesList = [
-    RecipeModel(
-      "Pumpkin Pie",
-      4,
-      200,
-      "20 minutes",
-      "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2014/3/6/0/RF0104_From-Scratch-Pumpkin-Pie_s4x3.jpg.rend.hgtvcom.616.462.suffix/1433678596474.jpeg",
-      [
-        '8 large eggs',
-        '1 tsp. Dijon mustard',
-        'Kosher salt and pepper',
-        '1 tbsp. olive oil or unsalted butter',
-        '2 slices thick-cut bacon, cooked and broken into pieces',
-        '2 c. spinach, torn',
-        '2 oz. Gruyère cheese, shredded',
-      ],
-      [
-        "Preheat oven to 425 degrees F. Whisk pumpkin, sweetened condensed milk, eggs, spices and salt in medium bowl until smooth. Pour into crust. Bake 15 minutes.",
-        "Reduce oven temperature to 350 degrees F and continue baking 35 to 40 minutes or until knife inserted 1 inch from crust comes out clean. Cool. Garnish as desired. Store leftovers covered in refrigerator."
-      ],
-      [
-        "Large mixing bowl",
-        "Medium mixing bowl",
-        "Kitchen scale",
-        "Liquid measuring cups",
-        "Dry measuring cups and spoons",
-        "Spatula for stirring",
-      ],
-    ),
-    RecipeModel(
-      "Roast Chicken w/ Basil",
-      5,
-      450,
-      '20 minutes',
-      "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2015/7/21/2/FNM_090115-Roast-Basil-Chicken-with-Basil-Baby-Potatoes-Recipe_s4x3.jpg.rend.hgtvcom.616.462.suffix/1437663053111.jpeg",
-      [],
-      [],
-      [],
-    ),
-    RecipeModel(
-        "Lasagna",
-        2,
-        900,
-        "20 minutes",
-        "https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg",
-        [],
-        [],
-        []),
-    RecipeModel(
-        "Broccoli Salad",
-        3,
-        170,
-        "20 minutes",
-        "https://www.paleorunningmomma.com/wp-content/uploads/2021/06/broccoli-salad-7.jpg",
-        [],
-        [],
-        []),
-    RecipeModel(
-      "Taco Salad",
-      3.5,
-      180,
-      "20 minutes",
-      "https://dinnerthendessert.com/wp-content/uploads/2021/01/Taco-Salad-7.jpg",
-      [],
-      [],
-      [],
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +196,15 @@ class RecipeCard extends StatelessWidget {
 
                 return ListView.builder(
                     itemCount: snapshot.data?.length,
-                    itemBuilder: (BuildContext context, int index) => Container(
+                    itemBuilder: (BuildContext context, int index) => InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MenuDetail(
+                                      findRecipes: snapshot.data![index])));
+                        },
+                        child: Container(
                           height: 300,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 0),
@@ -335,27 +248,26 @@ class RecipeCard extends StatelessWidget {
                             //    fit: BoxFit.fill),
 
                             Positioned(
-                              top: 130,
-                              right: 10,
-                              left: 10,
-                              height: 158,
-                              child: Card(
-                                color: Color.fromRGBO(255, 255, 255, 0.8),
-                                clipBehavior: Clip.antiAlias,
-                                //margin: const EdgeInsets.only(top: 100),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(24)),
-                                child: //Stack(
-                                    //  alignment: Alignment.center,
-                                    //  children: [
-                                    //    Ink.image(
-                                    //      image: NetworkImage(Recipe.uri),
-                                    //      fit: BoxFit.cover,
-                                    //    ),
-                                    Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    children: <Widget>[
+                                top: 130,
+                                right: 10,
+                                left: 10,
+                                height: 140,
+                                child: Card(
+                                  color: Color.fromRGBO(255, 255, 255, 0.8),
+                                  clipBehavior: Clip.antiAlias,
+                                  //margin: const EdgeInsets.only(top: 100),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(24)),
+                                  child: //Stack(
+                                      //  alignment: Alignment.center,
+                                      //  children: [
+                                      //    Ink.image(
+                                      //      image: NetworkImage(Recipe.uri),
+                                      //      fit: BoxFit.cover,
+                                      //    ),
+                                      Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(children: <Widget>[
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             top: 10,
@@ -409,40 +321,41 @@ class RecipeCard extends StatelessWidget {
                                           //Spacer(),
                                         ]),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10,
-                                            bottom: 4.0,
-                                            right: 10,
-                                            left: 5),
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text(
-                                              "${snapshot.data?[index].likes.toStringAsFixed(0)} Calories",
-                                              //"100 Calories",
-                                              style: new TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                                //color: Color.fromRGBO(229, 115, 44, 1.0),
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                                      //      Padding(
+                                      //        padding: const EdgeInsets.only(
+                                      //            top: 10,
+                                      //            bottom: 4.0,
+                                      //            right: 10,
+                                      //            left: 5),
+                                      //        child: Row(
+                                      //          children: <Widget>[
+                                      //            Text(
+                                      //              "${snapshot.data?[index].id.toStringAsFixed(0)} Calories",
+                                      //              //"100 Calories",
+                                      //              style: new TextStyle(
+                                      //                fontSize: 16,
+                                      //                fontWeight: FontWeight.bold,
+                                      //                //color: Color.fromRGBO(229, 115, 44, 1.0),
+                                      //                color: Colors.black,
+                                      //              ),
+                                      //            ),
+                                      //          ],
+                                      //        ),
+                                      //      ),
+                                      //    ],
+                                      //  ),
+                                      //),
+                                    ]),
                                   ),
-                                ),
-                              ),
-                            ),
+                                ))
                           ]),
-                        ));
+                        )));
               }
               if (snapshot.hasError) {
                 print('Error: ${snapshot.error}');
                 return Text('Error: ${snapshot.error}');
               } else {
-                return Text("HI");
+                return Center(child: CircularProgressIndicator());
               }
             }));
   }
