@@ -1,0 +1,13 @@
+#import 'dart:async';
+#import 'package:http/http.dart' as http;
+
+#class CharacterApi {
+#  static Future getCharacters() {
+#    return http.get(Uri.parse('https://breakingbadapi.com/api/characters'));
+#  }
+#}
+
+@baseUrl = https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/?rapidapi-key=211c3f2d31dc4886b0364e522c4b9e01
+@authorization = test
+POST {{baseUrl}}/token?grant_type=client_credientials
+Authorization: Basic {{authorization}}
